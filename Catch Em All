@@ -3,10 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet Map with Marker Tooltips</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     body {
       font-family: Verdana, sans-serif;
     }
+
+h3 {
+  font-size: 20px;
+  color: #FF801B;
+  text-align: center;
+  font-family: verdana, sans-serif;
+  margin-bottom: 10px;
+}
+
+.leaflet-tooltip {
+  background-color: #48495B;
+  color: white;
+  font-size: 13px;
+  font-family: Verdana, sans-serif;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
 
     .inventory-container {
       display: flex;
@@ -23,7 +45,7 @@
       position: relative;
       border: 1px solid #ccc;
       background-color: #48495B;
-      width: 200px;
+      width: 175px;
       height: 120px;
       display: flex;
       flex-direction: column;
@@ -31,7 +53,6 @@
       align-items: center;
       box-sizing: border-box;
       cursor: pointer;
-      font-family: verdana, sans-serif;
     }
 
     .box img {
@@ -43,18 +64,16 @@
       position: absolute;
       top: 4px;
       left: 4px;
-      font-size: 14px;
+      font-size: 11px;
       color: white;
-      font-family: verdana, sans-serif;
     }
 
     .bottom-right-text {
       position: absolute;
       bottom: 2px;
       right: 4px;
-      font-size: 14px;
+      font-size: 10px;
       color: white;
-      font-family: verdana, sans-serif;
     }
 
     /* Info panel styles */
@@ -64,33 +83,37 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 300px;
+      width: 500px;
+      height: 600px;
       padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: #48495B;
+      color: white;
+      border: 1px solid white;
       z-index: 1000;
       text-align: left;
-      
+      overflow: hidden;
     }
 
     .info-panel .content {
       margin-bottom: 10px;
     }
 
-    .info-panel .close-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 5px 10px;
-      background-color: #48495B;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+.info-panel .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid white;
+  padding: 10px;
+  cursor: pointer;
+}
 
-    .info-panel .close-button:hover {
-      background-color: #353746;
-    }
+.info-panel .close-button:hover {
+  color: #ccc;
+}
 
     /* Overlay for the panel */
     .overlay {
@@ -116,11 +139,17 @@
       font-size: 16px;
       text-align: center;
       border-radius: 5px;
-      font-family: Verdana, sans-serif;
     }
 
     .toggle-button:hover {
       background-color: #353746;
+    }
+
+    #map {
+      width: 100%;
+      height: 400px;
+      
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -137,22 +166,24 @@
   <div class="content" id="info-panel-content">
     <!-- Dynamic HTML content will be injected here -->
   </div>
-  <button class="close-button" onclick="closeInfoPanel()">Close</button>
+  <div id="map"></div>
+  <button class="close-button" onclick="closeInfoPanel()">X</button>
 </div>
 
 <script>
   let isMetric = true;
+  let map;
+  let iconLayerGroup;
 
-  const inventoryData = [    
-    
+  const inventoryData = [
     {
       smallItems: [
+
         { 
-          text: 'Fish', 
+          text: 'American Gizzard Shad', 
           image: 'https://wiki.fishingplanet.com/images/thumb/8/88/American_Gizzard_Shad.png/300px-American_Gizzard_Shad.png', 
           combinedText: `<span style='color: white;'>Common</span>, <span style='color: #93c47d;'>Trophy</span>, <span style='color: orange;'>Unique</span>`,
-          infoMetric: `
-<img src="https://cdn-icons-png.flaticon.com/128/4003/4003667.png" alt="Text" style="width:20px;height:20px;"> [X,Y]<br>
+          infoMetric: `<h3>American Gizzard Shad</h3>
 <img src="https://cdn-icons-png.flaticon.com/128/414/414927.png" alt="Text" style="width:20px;height:20px;"> Weather<br>
 <img src="https://cdn-icons-png.flaticon.com/128/2784/2784459.png" alt="Text" style="width:20px;height:20px;"> Time<br>
 <img src="https://cdn-icons-png.flaticon.com/128/782/782333.png" alt="Text" style="width:20px;height:20px;"> Type Rod<br>
@@ -161,10 +192,8 @@
 <img src="https://cdn-icons-png.flaticon.com/128/1833/1833959.png" alt="Text" style="width:20px;height:20px;"> Bait<br>
 <img src="https://cdn-icons-png.flaticon.com/128/2944/2944282.png" alt="Text" style="width:20px;height:20px;"> Lure<br>
 <img src="https://cdn-icons-png.flaticon.com/128/4296/4296548.png" alt="Text" style="width:20px;height:20px;"> Speed, Retrieve<br><br>
-<img src="https://cdn-icons-png.flaticon.com/128/2280/2280557.png" alt="Text" Style="width:20px;height:20px;"> Notes
-          `,
-          infoImperial: `
-<img src="https://cdn-icons-png.flaticon.com/128/4003/4003667.png" alt="Text" style="width:20px;height:20px;"> [X,Y]<br>
+<img src="https://cdn-icons-png.flaticon.com/128/2280/2280557.png" alt="Text" Style="width:20px;height:20px;"> Notes`,
+          infoImperial: `<h3>American Gizzard Shad</h3>
 <img src="https://cdn-icons-png.flaticon.com/128/414/414927.png" alt="Text" style="width:20px;height:20px;"> Weather<br>
 <img src="https://cdn-icons-png.flaticon.com/128/2784/2784459.png" alt="Text" style="width:20px;height:20px;"> Time<br>
 <img src="https://cdn-icons-png.flaticon.com/128/782/782333.png" alt="Text" style="width:20px;height:20px;"> Type Rod<br>
@@ -173,15 +202,16 @@
 <img src="https://cdn-icons-png.flaticon.com/128/1833/1833959.png" alt="Text" style="width:20px;height:20px;"> Bait<br>
 <img src="https://cdn-icons-png.flaticon.com/128/2944/2944282.png" alt="Text" style="width:20px;height:20px;"> Lure<br>
 <img src="https://cdn-icons-png.flaticon.com/128/4296/4296548.png" alt="Text" style="width:20px;height:20px;"> Speed, Retrieve<br><br>
-<img src="https://cdn-icons-png.flaticon.com/128/2280/2280557.png" alt="Text" Style="width:20px;height:20px;"> Notes
-          `
-        }
+<img src="https://cdn-icons-png.flaticon.com/128/2280/2280557.png" alt="Text" Style="width:20px;height:20px;"> Notes`,
+          mapMarkers: [
+            { lat: -100, lng: 100, tooltip: '[100, -100]' },
+          ]
+        },
+
+
+
       ]
     }
-    
-    
-    
-    
   ];
 
   function generateInventory() {
@@ -226,6 +256,12 @@
     // Display the overlay and the popup
     overlay.style.display = 'block';
     document.querySelector('.info-panel').style.display = 'block';
+
+    // Initialize or update the map
+    if (!map) {
+      initializeMap();
+    }
+    updateMapMarkers(item.mapMarkers);
   }
 
   function closeInfoPanel() {
@@ -234,6 +270,37 @@
 
     overlay.style.display = 'none';
     infoPanel.style.display = 'none';
+  }
+
+  function initializeMap() {
+    map = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -3,
+      maxZoom: 2
+    });
+
+    const bounds = [[1000, -1000], [-1000, 1000]];
+    const image = 'https://i.imgur.com/ATZWP5G.png';
+    L.imageOverlay(image, bounds).addTo(map);
+
+    map.fitBounds(bounds);
+    iconLayerGroup = L.layerGroup().addTo(map);
+  }
+
+  function updateMapMarkers(markers) {
+    iconLayerGroup.clearLayers();
+
+    const customIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/128/14831/14831599.png',
+      iconSize: [32, 32], // Width and height of the icon
+      iconAnchor: [16, 32] // Bottom center of the icon
+    });
+
+    markers.forEach(marker => {
+      L.marker([marker.lat, marker.lng], { icon: customIcon })
+        .bindTooltip(marker.tooltip) // Attach tooltip to marker
+        .addTo(iconLayerGroup);
+    });
   }
 
   // Initialize inventory
