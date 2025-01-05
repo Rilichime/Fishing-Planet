@@ -182,7 +182,7 @@ h3 {
         { 
           text: 'American Gizzard Shad', 
           image: 'https://wiki.fishingplanet.com/images/thumb/8/88/American_Gizzard_Shad.png/300px-American_Gizzard_Shad.png', 
-          combinedText: `<span style='color: white;'>Common</span>, <span style='color: #93c47d;'>Trophy</span>, <span style='color: orange;'>Unique</span>`,
+          combinedText: `<span style='color: #cfe2f3;'>Young</span>, <span style='color: white;'>Common</span>, <span style='color: #93c47d;'>Trophy</span>, <span style='color: orange;'>Unique</span>`,
           infoMetric: `<h3>American Gizzard Shad</h3>
 <img src="https://cdn-icons-png.flaticon.com/128/414/414927.png" alt="Text" style="width:20px;height:20px;"> Weather<br>
 <img src="https://cdn-icons-png.flaticon.com/128/2784/2784459.png" alt="Text" style="width:20px;height:20px;"> Time<br>
