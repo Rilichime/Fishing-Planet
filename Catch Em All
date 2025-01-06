@@ -91,7 +91,10 @@ h3 {
       border: 1px solid white;
       z-index: 1000;
       text-align: left;
-      overflow: hidden;
+      overflow-y: auto;
+      max-height: 600px;
+      font-size: 10pt; 
+      color: white;
     }
 
     .info-panel .content {
@@ -147,8 +150,7 @@ h3 {
 
     #map {
       width: 100%;
-      height: 400px;
-      
+      height: 200px;
       margin-top: 20px;
     }
   </style>
