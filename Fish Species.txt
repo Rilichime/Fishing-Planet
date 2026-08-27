@@ -1,15 +1,30 @@
 Blacktail Shiner: https://wiki.fishingplanet.com/images/b/b6/Blacktail_Shiner.png
 Bluegill: https://wiki.fishingplanet.com/images/a/a2/Bluegill.png
 Channel Catfish: https://wiki.fishingplanet.com/images/7/73/Channel_Catfish.png
+Common Bleak: https://wiki.fishingplanet.com/images/6/68/Common_Bleak.png
+Common Carp: https://wiki.fishingplanet.com/images/e/e6/Common_Carp.png
+Common Roach: https://wiki.fishingplanet.com/images/6/68/Common_Bleak.png
+Common Rudd: https://wiki.fishingplanet.com/images/b/b6/Common_Rudd.png
+European Perch: https://wiki.fishingplanet.com/images/1/1a/European_Perch.png
+European Weatherfish: https://wiki.fishingplanet.com/images/5/59/European_Weatherfish.png
 Golden Shiner: https://wiki.fishingplanet.com/images/3/37/Golden_Shiner.png
 Grass Pickerel: https://wiki.fishingplanet.com/images/7/7c/Grass_Pickerel.png
 Green Sunfish: https://wiki.fishingplanet.com/images/9/90/Green_Sunfish.png
 Guadalupe Bass: https://i.imgur.com/aIwRN1P.png
-Largemouth Bass: https://wiki.fishingplanet.com/images/thumb/1/11/Largemouth_Bass.png/300px-Largemouth_Bass.png
+Gudgeon: https://wiki.fishingplanet.com/images/5/52/Gudgeon.png
+Ide: https://wiki.fishingplanet.com/images/f/f7/Ide.png
+Largemouth Bass: https://wiki.fishingplanet.com/images/1/11/Largemouth_Bass.png
+Mirror Carp: https://wiki.fishingplanet.com/images/0/0d/Mirror_Carp.png
+Northern Pike: https://wiki.fishingplanet.com/images/0/0b/Northern_Pike.png
+Prussian Carp: https://wiki.fishingplanet.com/images/2/27/Prussian_Carp.png
 Redear Sunfish: https://wiki.fishingplanet.com/images/9/92/Redear_Sunfish.png
+Round Goby: https://wiki.fishingplanet.com/images/e/ee/Round_Goby.png
+Silver Bream: https://wiki.fishingplanet.com/images/5/50/Silver_Bream.png
 Smallmouth Buffalo: https://wiki.fishingplanet.com/images/0/01/Smallmouth_Buffalo.png
 Spotted Bass: https://wiki.fishingplanet.com/images/7/7d/Spotted_Bass.png
+Tench: https://wiki.fishingplanet.com/images/e/e5/Tench.png
 Threadfin Shad: https://i.imgur.com/w3pcqHL.png
 Warmouth: https://wiki.fishingplanet.com/images/9/98/Warmouth.png
 White Crappie: https://wiki.fishingplanet.com/images/9/93/White_Crappie.png
 Yellow Bass: https://i.imgur.com/1xt4WQ1.png
+
